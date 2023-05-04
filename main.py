@@ -1,24 +1,29 @@
-from settings import TGSettings
-import telebot
+from tg_API.core import TGCoreIntarface
 
-tg = TGSettings()
-
-bot = telebot.TeleBot(tg.tg_api_key.get_secret_value())
+start = TGCoreIntarface.get_start()
 
 
-@bot.message_handler(commands=['hello-world'])
-def start(message):
-    bot.send_message(message.chat.id, 'Hello Hello!!!')
-
-
-@bot.message_handler(content_types=['text'])
-def greetings(message):
-    if message.chat.type == 'private':
-        if message.text == 'Привет':
-            bot.send_message(message.chat.id, 'Привет Привет!!!')
-
-
-bot.polling(none_stop=True)
+# from settings import TGSettings
+# import telebot
+#
+# tg = TGSettings()
+#
+# bot = telebot.TeleBot(tg.tg_api_key.get_secret_value())
+#
+#
+# @bot.message_handler(commands=['hello-world'])
+# def start(message):
+#     bot.send_message(message.chat.id, 'Hello Hello!!!')
+#
+#
+# @bot.message_handler(content_types=['text'])
+# def greetings(message):
+#     if message.chat.type == 'private':
+#         if message.text == 'Привет':
+#             bot.send_message(message.chat.id, 'Привет Привет!!!')
+#
+#
+# bot.polling(none_stop=True)
 
 # from binance.spot import Spot
 #
