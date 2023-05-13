@@ -28,3 +28,6 @@ typing_extensions==4.5.0
 urllib3==1.26.15
 values==2020.12.3
 zope.interface==6.0
+
+peewee~=3.16.2
+aiogram~=2.25.1
