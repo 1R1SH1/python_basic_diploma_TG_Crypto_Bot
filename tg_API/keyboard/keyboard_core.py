@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove
 
 button1 = InlineKeyboardButton(text='Bitcoin', callback_data='Qwsogvtv82FCd')
 button2 = InlineKeyboardButton(text='Ethereum', callback_data='razxDUgYGNAdQ')

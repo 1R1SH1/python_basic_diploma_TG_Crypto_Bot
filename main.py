@@ -3,9 +3,6 @@
 from tg_API.core import TGCoreInterface
 import json
 
-results = TGCoreInterface.choose_coin()
-result = TGCoreInterface.coin_lower_price()
-
 # tg_bitcoin = TGApiInterface.get_bitcoin()
 # tg_ethereum = TGApiInterface.get_ethereum()
 # tg_dogecoin = TGApiInterface.get_dogecoin()

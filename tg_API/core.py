@@ -13,30 +13,50 @@ bot = Dispatcher(boty)
 keyboard = KeyboardInterface.keyboarding()
 
 
+@bot.message_handler(commands=['high'])
+async def _coin_higher_price(message: types.Message):
+    await message.answer('Выберите криптовалюту, пожалуйста:', reply_markup=keyboard)
+
+    @bot.callback_query_handler(text=['Qwsogvtv82FCd', 'razxDUgYGNAdQ', 'D7B1x_ks7WhV5', 'a91GCGd_u96cF'])
+    async def _call_high(call: types.CallbackQuery):
+        if call.data == 'Qwsogvtv82FCd':
+            await call.answer('Qwsogvtv82FCd')
+        if call.data == 'razxDUgYGNAdQ':
+            await call.answer('razxDUgYGNAdQ')
+        if call.data == 'D7B1x_ks7WhV5':
+            await call.answer('D7B1x_ks7WhV5')
+        if call.data == 'a91GCGd_u96cF':
+            await call.answer('a91GCGd_u96cF')
+
+        coins = SiteApiInterface.get_coin()
+        response = coins(method, url, headers, call.data, 3)
+        response = response.json()
+        result = max(response['data']['history'], key=lambda feature: feature['price'])
+        answer = result['price']
+        await message.answer(f'Наибольшая цена за сегодня: {answer} $')
+
+
 @bot.message_handler(commands=['low'])
-async def _choose_coin(message: types.Message):
-    await message.answer('Уточните, пожалуйста:', reply_markup=keyboard)
+async def _coin_lower_price(message: types.Message):
+    await message.answer('Выберите криптовалюту, пожалуйста:', reply_markup=keyboard)
 
+    @bot.callback_query_handler(text=['Qwsogvtv82FCd', 'razxDUgYGNAdQ', 'D7B1x_ks7WhV5', 'a91GCGd_u96cF'])
+    async def _call_low(call: types.CallbackQuery):
+        if call.data == 'Qwsogvtv82FCd':
+            await call.answer('Qwsogvtv82FCd')
+        if call.data == 'razxDUgYGNAdQ':
+            await call.answer('razxDUgYGNAdQ')
+        if call.data == 'D7B1x_ks7WhV5':
+            await call.answer('D7B1x_ks7WhV5')
+        if call.data == 'a91GCGd_u96cF':
+            await call.answer('a91GCGd_u96cF')
 
-@bot.callback_query_handler(text=['Qwsogvtv82FCd', 'razxDUgYGNAdQ', 'D7B1x_ks7WhV5', 'a91GCGd_u96cF'])
-async def _coin_lower_price(call: types.CallbackQuery):
-    if call.data == 'Qwsogvtv82FCd':
-        await call.answer('Qwsogvtv82FCd')
-    if call.data == 'razxDUgYGNAdQ':
-        await call.answer('razxDUgYGNAdQ')
-    if call.data == 'D7B1x_ks7WhV5':
-        await call.answer('D7B1x_ks7WhV5')
-    if call.data == 'a91GCGd_u96cF':
-        await call.answer('a91GCGd_u96cF')
-
-    coins = SiteApiInterface.get_coin()
-    response = coins(method, url, headers, call.data, 3)
-    response = response.json()
-
-    result = min(response['data']['history'], key=lambda feature: feature['price'])
-    answer = result['price']
-
-    await call.message.answer(f'Наименьшая цена за сегодня: {answer} $')
+        coins = SiteApiInterface.get_coin()
+        response = coins(method, url, headers, call.data, 3)
+        response = response.json()
+        result = min(response['data']['history'], key=lambda feature: feature['price'])
+        answer = result['price']
+        await message.answer(f'Наименьшая цена за сегодня: {answer} $')
 
 
 @bot.message_handler(commands=['hello-world'])
@@ -57,8 +77,8 @@ class TGCoreInterface():
         return _coin_lower_price
 
     @staticmethod
-    def choose_coin():
-        return _choose_coin
+    def coin_higher_price():
+        return _coin_higher_price
 
     @staticmethod
     def get_start():
@@ -74,7 +94,7 @@ class TGCoreInterface():
 if __name__ == '__main__':
     _start()
     _greetings()
-    _choose_coin()
     _coin_lower_price()
+    _coin_higher_price()
 
     TGCoreInterface()
