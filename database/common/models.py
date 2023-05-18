@@ -12,15 +12,6 @@ class ModelBase(pw.Model):
         database = db
 
 
-class User(pw.Model):
-    wrote_at = pw.DateField(default=datetime.now())
-
-    class Meta():
-        database = db
-
-
-class History(ModelBase, User):
+class History(ModelBase):
     number = pw.TextField()
     message = pw.TextField()
-    name = pw.TextField()
-    telegram_id = pw.TextField()
