@@ -6,12 +6,13 @@ db = pw.SqliteDatabase('LogFile.db')
 
 
 class ModelBase(pw.Model):
-    created_at = pw.DateField(default=datetime.now())
 
     class Meta():
         database = db
 
 
 class History(ModelBase):
-    number = pw.TextField()
+    user_id = pw.IntegerField()
     message = pw.TextField()
+    command = pw.TextField()
+    created_at = pw.DateField(default=datetime.now())

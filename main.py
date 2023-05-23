@@ -43,7 +43,9 @@ async def _higher(message: types.Message):
         result = max(response['data']['history'], key=lambda feature: feature['price'])
         answer = result['price']
         answ = await call.message.answer(f'Наибольшая цена за сегодня: {answer} $')
-        db_write(db, History, answ)
+        answ.as_json()
+        data = [{'user_id': answ.chat.id, 'message': answ.text, 'command': 'high', 'created_at': answ.date}]
+        db_write(db, History, data)
 
 
 @bot.message_handler(commands=['low'])
@@ -67,7 +69,10 @@ async def _lower(message: types.Message):
         result = min(response['data']['history'], key=lambda feature: feature['price'])
         answer = result['price']
         answ = await call.message.answer(f'Наименьшая цена за сегодня: {answer} $')
-        db_write(db, History, answ)
+        answ.as_json()
+        data = [{'user_id': answ.chat.id, 'message': answ.text, 'command': 'low', 'created_at': answ.date}]
+
+        db_write(db, History, data)
 
 
 @bot.message_handler(commands=['custom'])
@@ -97,16 +102,21 @@ async def _custom(message: types.Message):
         prices = [to_float_min, to_float_max]
         avr = sum(prices) / 2
         answ = await call.message.answer(f'Средняя цена за сегодня: {avr} $')
-        db_write(db, History, answ)
+        answ.as_json()
+        data = [{'user_id': answ.chat.id, 'message': answ.text, 'command': 'custom', 'created_at': answ.date}]
+
+        db_write(db, History, data)
 
 
 @bot.message_handler(commands=['history'])
 async def _history(message: types.Message):
-    retrived = db_read(db, History, History.message, History.number)
-    print(retrived)
-    for element in retrived.model:
-        print(element.number, element.message)
-        await message.answer('Полная история запросов:', element.message, element.number)
+    retrived = db_read(db, History, History.user_id, History.created_at, History.message, History.command)
+    for element in retrived:
+        id = element.user_id
+        date = element.created_at
+        messages = element.message
+        com = element.command
+        await message.answer(f'Полная история запросов, id: {id} дата: {date} сообщение: {messages} команда: {com}')
 
 
 @bot.message_handler(commands=['hello-world'])
