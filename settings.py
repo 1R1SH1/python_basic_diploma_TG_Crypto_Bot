@@ -12,4 +12,3 @@ class TGSettings(BaseSettings):
 
 class SiteSettings(BaseSettings):
     api_key: SecretStr = os.getenv('SITE_API', None)
-    host_api: StrictStr = os.getenv('HOST_API', None)
